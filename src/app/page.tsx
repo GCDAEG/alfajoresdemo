@@ -27,19 +27,13 @@ import { CartDrawer } from "@/components/ui/CartDrawer";
 // export const titleH2 = montserrat.className;
 // export const base = roboto.className;
 
-const POSTS_QUERY = `*[
-  _type == "product"
-  && defined(slug.current)
-]|order(publishedAt desc)[0...12]{_id, name, slug, image, category, description, price, publishedAt}`;
 
-const options = { next: { revalidate: 30 } };
+
 export default async function Home() {
-  const posts = await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options);
-  console.log("los posts", posts);
   return (
     <main className={`min-h-screen w-full font-base bg-background `}>
       <HeroSection />
-      <ProductCatalog posts={posts} />
+      <ProductCatalog />
 
       <LocationSection />
       <CartDrawer />

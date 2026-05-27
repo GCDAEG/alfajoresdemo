@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { NavSection } from "@/lib/sections";
-import { Flame, ShoppingCart, ArrowRight } from "lucide-react";
+import { Sparkles, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useLenis } from "lenis/react";
 import { CartDrawer } from "@/components/ui/CartDrawer";
@@ -27,109 +27,103 @@ const DesktopMenu = ({
       router.push("/");
     } else {
       lenis?.scrollTo(`#${id}`, {
-        offset: -100,
-        duration: 2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing suave personalizado
+        offset: -90,
+        duration: 1.8,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing premium exponencial
       });
     }
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-100 h-24 hidden lg:flex items-center bg-white/60 backdrop-blur-2xl border-b border-slate-100/50">
-      <div className="container mx-auto px-8 flex justify-between items-center h-full">
-        {/* LOGO - Identidad Visual Fuerte */}
-        <Link
-          href="/"
-          className="group flex items-center gap-4 active:scale-95 transition-all"
-        >
-          <div className="relative">
-            <div className="absolute inset-0 bg-orange-400 blur-xl opacity-20 group-hover:opacity-40 transition-opacity" />
-            <div className="relative bg-(--primary) p-3 rounded-[1.2rem] transition-all duration-500 group-hover:rotate-15 group-hover:scale-110 shadow-xl shadow-orange-200">
-              <Flame className="text-white size-7 fill-white" />
-            </div>
+    <div className="hidden lg:flex items-center justify-between w-full h-full">
+      
+      {/* LOGO - Identidad Corporativa Cosmética (Estilo Avon / Lancôme) */}
+      <Link
+        href="/"
+        className="group flex items-center gap-3.5 active:scale-98 transition-all"
+      >
+        <div className="relative">
+          {/* Resplandor oro rosa de fondo */}
+          <div className="absolute inset-0 bg-[color:var(--public-hero-glow)] blur-lg opacity-40 group-hover:opacity-70 transition-opacity" />
+          <div className="relative bg-(--primary) p-2.5 rounded-xl transition-all duration-500 group-hover:scale-105 shadow-md shadow-(--primary)/10">
+            <Sparkles className="text-(--primary-foreground) size-5.5 fill-current" />
           </div>
-          <div className="flex flex-col">
-            <h1 className="text-2xl font-black tracking-tight text-slate-900 leading-none uppercase italic">
-              {brand.name}
-              <span className="text-(--primary)">{brand.suffix}</span>
-            </h1>
-            <span className="text-[10px] font-black text-slate-400 tracking-[0.3em] uppercase mt-1">
-              Food Experience
+        </div>
+        <div className="flex flex-col">
+          <h1 className="text-xl font-display font-medium tracking-widest text-(--foreground) leading-none uppercase">
+            {brand.name}
+            <span className="text-(--primary) font-light">{brand.suffix}</span>
+          </h1>
+          <span className="text-[9px] font-sans font-medium text-(--muted-foreground) tracking-[0.35em] uppercase mt-1">
+            Haute Parfumerie & Beauté
+          </span>
+        </div>
+      </Link>
+
+      {/* NAVIGATION - Minimalist Luxury Capsule Pill */}
+      <div className="hidden xl:flex items-center bg-(--muted)/40 p-1 rounded-full border border-(--border)/30 backdrop-blur-sm">
+        <ul className="flex items-center gap-0.5">
+          {sections.map((s) => {
+            const isActive = activeSection === s.id && pathname === "/";
+            return (
+              <li key={s.id} className="relative">
+                <button
+                  onClick={() => handleNavigation(s.id)}
+                  className={cn(
+                    "px-6 py-2 rounded-full text-[10px] font-sans font-semibold uppercase tracking-[0.2em] transition-all duration-300 relative z-10",
+                    isActive
+                      ? "text-(--primary)"
+                      : "text-(--muted-foreground) hover:text-(--foreground)"
+                  )}
+                >
+                  {s.label}
+                </button>
+                {isActive && (
+                  <motion.div
+                    layoutId="nav-pill-desktop"
+                    className="absolute inset-0 bg-(--card) rounded-full shadow-[0_3px_10px_rgba(0,0,0,0.03)] border border-(--border)/40"
+                    transition={{
+                      type: "spring",
+                      bounce: 0.1,
+                      duration: 0.5,
+                    }}
+                  />
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      {/* ACTIONS - Conversión y Boutique Premium */}
+      <div className="flex items-center gap-5">
+        <div
+          className="flex items-center gap-3 group cursor-pointer"
+          onClick={() => router.push("/catalogo")}
+        >
+          <div className="flex flex-col items-end">
+            <span className="text-[9px] font-sans font-bold text-(--primary) uppercase tracking-widest">
+              Boutique Digital
+            </span>
+            <span className="text-xs font-sans font-medium text-(--foreground) tracking-tight">
+              Explorar Catálogo
             </span>
           </div>
-        </Link>
-
-        {/* NAVIGATION - Floating Pill Design */}
-        <div className="hidden xl:flex items-center bg-slate-100/50 p-1.5 rounded-3xl border border-slate-200/40 backdrop-blur-sm">
-          <ul className="flex items-center gap-1">
-            {sections.map((s) => {
-              const isActive = activeSection === s.id && pathname === "/";
-              return (
-                <li key={s.id} className="relative">
-                  <button
-                    onClick={() => handleNavigation(s.id)}
-                    className={cn(
-                      "px-7 py-3 rounded-[1.1rem] text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300 relative z-10",
-                      isActive
-                        ? "text-orange-600"
-                        : "text-slate-500 hover:text-slate-900 hover:bg-slate-200/50",
-                    )}
-                  >
-                    {s.label}
-                  </button>
-                  {isActive && (
-                    <motion.div
-                      layoutId="nav-pill-desktop"
-                      className="absolute inset-0 bg-white rounded-[1.1rem] shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-slate-100"
-                      transition={{
-                        type: "spring",
-                        bounce: 0.15,
-                        duration: 0.5,
-                      }}
-                    />
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+          <button className="relative size-10 flex items-center justify-center bg-(--foreground) text-(--background) rounded-lg overflow-hidden transition-all duration-300 group-hover:bg-(--primary) group-hover:text-(--primary-foreground) active:scale-95">
+            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+          </button>
         </div>
 
-        {/* ACTIONS - Conversión Alta */}
-        <div className="flex items-center gap-6">
-          <div
-            className="flex items-center gap-2 group cursor-pointer"
-            onClick={() => router.push("/menu")}
-          >
-            <div className="flex flex-col items-end mr-2">
-              <span className="text-[10px] font-black text-orange-500 uppercase tracking-widest">
-                Pedí Online
-              </span>
-              <span className="text-sm font-bold text-slate-900 tracking-tight">
-                Ver la carta
-              </span>
-            </div>
-            <button className="relative size-14 flex items-center justify-center bg-slate-900 text-white rounded-2xl overflow-hidden transition-all group-hover:bg-(--primary) group-hover:shadow-lg group-hover:shadow-orange-200 active:scale-90">
-              <ArrowRight className="size-6 transition-transform group-hover:translate-x-1" />
-            </button>
-          </div>
+        <div className="h-6 w-px bg-(--border)" />
 
-          <div className="h-10 w-px bg-slate-200/60" />
-
-          {/* Cart con Badge Personalizado dentro del Drawer */}
-          <div className="relative hover:scale-105 transition-transform">
-            <CartDrawer />
-          </div>
+        {/* Bolsa de Compras con Drawer */}
+        <div className="relative hover:scale-105 transition-transform duration-300">
+          <CartDrawer />
         </div>
       </div>
-    </nav>
+
+    </div>
   );
 };
 
 export default DesktopMenu;
-// COMENTARIOS TÉCNICOS DE REDISEÑO:
-// 1. Framer Motion (layoutId): El indicador "nav-pill-desktop" usa layoutId para
-//    moverse fluidamente entre botones sin perderse, dando un toque "Apple-like".
-// 2. Lenis Easing: Se implementó una función de easing exponencial para que el
-//    scroll en Desktop se sienta natural y lujoso, no lineal.
-// 3. Estética: Se reemplazó el gris neutro por Slate (pizarrón) para un look más
-//    moderno que combina perfecto con el naranja intenso.

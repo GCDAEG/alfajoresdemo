@@ -1,110 +1,192 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-/* PALETA DE COLORES PREMIUM (Rosticería & Food-Tech)
-  Base: Naranja intenso, crema suave y contrastes oscuros.
-*/
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  
+  /* Tipografías: Merriweather (Títulos Serif de lujo) y Montserrat (Lectura limpia) */
+  --font-display: var(--font-display);
+  --font-heading: var(--font-heading);
+  
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  
+  /* Tokens de Marca Cosmética (Utilidades Tailwind bg-brand, text-brand) */
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-muted: var(--brand-muted);
+  --color-brand-subtle: var(--brand-subtle);
+}
+
 :root {
-  --primary: #FF5C00;         /* Naranja "Hambre" intenso */
-  --primary-foreground: #FFFFFF;
-  --background: #FFFDFB;      /* Blanco crema muy sutil */
-  --card: #FFFFFF;
-  --card-foreground: #1A1A1A;
-  --accent: #00A344;          /* Verde fresco para "Disponible" o "Agregado" */
-  --muted: #64748b;
-  --border: #F1F1F1;
+  /* Fondo crema/nude ultrasuave para dar calidez orgánica a la piel y productos */
+  --background: oklch(0.985 0.006 30);
+  /* Texto café oscuro/carbón, mucho más suave y premium que el negro puro */
+  --foreground: oklch(0.25 0.02 20);
   
-  /* Radios de borde modernos */
-  --radius: 1.25rem;
-}
-
-/* --- CONFIGURACIÓN PARA LENIS (Scroll Suave) --- */
-html.lenis {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
-}
-
-/* --- ESTILOS BASE --- */
-body {
-  background-color: var(--background);
-  color: var(--card-foreground);
-  font-feature-settings: "cv02", "cv03", "cv04", "shnt";
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* Elimina el molesto recuadro azul al tocar en móviles */
-  -webkit-tap-highlight-color: transparent;
-}
-
-@layer components {
-  /* Botón Principal: Con sombra suave y efecto de presión */
-  .btn-primary {
-    @apply bg-[var(--primary)] text-white font-bold py-4 px-6 rounded-[var(--radius)] 
-           transition-all duration-300 ease-out active:scale-95 
-           flex items-center justify-center gap-2 
-           shadow-[0_10px_20px_-5px_rgba(255,92,0,0.3)]
-           hover:shadow-[0_15px_25px_-5px_rgba(255,92,0,0.4)]
-           disabled:opacity-50 disabled:pointer-events-none;
-  }
-
-  /* Card Estilo Glass: Para el menú flotante o headers */
-  .glass-card {
-    @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-xl shadow-black/5;
-  }
-
-  /* Cards de Producto: Elevación sutil */
-  .product-card {
-    @apply bg-white rounded-[var(--radius)] border border-[var(--border)]
-           transition-all duration-300 hover:border-[var(--primary)]/30
-           hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)];
-  }
-
-  /* Badge de Categoría */
-  .category-pill {
-    @apply px-4 py-2 rounded-full font-medium transition-all whitespace-nowrap
-           border border-transparent;
-  }
-
-  .category-pill-active {
-    @apply bg-[var(--primary)] text-white shadow-md shadow-orange-200;
-  }
-
-  .category-pill-inactive {
-    @apply bg-white text-slate-600 border-slate-100 hover:border-orange-200;
-  }
-
-  /* Utilidad para esconder scrollbars en el menú de categorías horizontal */
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.25 0.02 20);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.25 0.02 20);
   
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Animación de "latido" para el carrito cuando hay items */
-  .cart-pulse {
-    @apply animate-pulse;
-    animation-duration: 1.5s;
-  }
+  /* PRIMARIO: Magenta/Rosa sofisticado e intenso (Estilo alta perfumería / Avon) */
+  --primary: oklch(0.51 0.21 348);
+  --primary-foreground: oklch(0.99 0.002 30);
+  
+  /* SECUNDARIO: Tono Champagne/Maquillaje refinado */
+  --secondary: oklch(0.94 0.025 45);
+  --secondary-foreground: oklch(0.35 0.05 35);
+  
+  --muted: oklch(0.95 0.01 30);
+  --muted-foreground: oklch(0.52 0.02 30);
+  
+  /* Acento sutil para hovers o badges de categorías cosméticas */
+  --accent: oklch(0.96 0.03 10);
+  --accent-foreground: oklch(0.45 0.15 350);
+  
+  --destructive: oklch(0.60 0.18 12);
+  --border: oklch(0.91 0.015 30);
+  --input: oklch(0.91 0.015 30);
+  --ring: oklch(0.51 0.21 348 / 40%);
+  
+  /* Gráficos en tonos tierra, pétalo y oro rosa */
+  --chart-1: oklch(0.65 0.14 15);
+  --chart-2: oklch(0.78 0.09 50);
+  --chart-3: oklch(0.55 0.08 30);
+  --chart-4: oklch(0.88 0.06 65);
+  --chart-5: oklch(0.42 0.11 350);
+  
+  --radius: 0.5rem; /* Bordes ligeramente más finos y rectos para transmitir lujo y orden */
+  
+  --sidebar: oklch(0.97 0.01 30);
+  --sidebar-foreground: oklch(0.25 0.02 20);
+  --sidebar-primary: oklch(0.51 0.21 348);
+  --sidebar-primary-foreground: oklch(0.99 0.002 30);
+  --sidebar-accent: oklch(0.94 0.025 45);
+  --sidebar-accent-foreground: oklch(0.35 0.05 35);
+  --sidebar-border: oklch(0.91 0.015 30);
+  --sidebar-ring: oklch(0.51 0.21 348 / 40%);
+  
+  /* Variables de Marketing / Landing pública */
+  --brand: oklch(0.51 0.21 348);
+  --brand-foreground: oklch(0.99 0.002 30);
+  --brand-muted: oklch(0.51 0.21 348 / 12%);
+  --brand-subtle: oklch(0.51 0.21 348 / 6%);
+  
+  /* Glassmorphism de pétalo (Efecto difuminado satinado para headers y fichas de producto) */
+  --public-glass-bg: oklch(1 0 0 / 65%);
+  --public-glass-border: oklch(0.51 0.21 348 / 10%);
+  --public-hero-glow: oklch(0.88 0.08 45 / 40%); /* Resplandor dorado/rose gold de fondo */
+  --public-hero-glow-soft: oklch(0.93 0.04 20 / 25%);
 }
 
-/* --- SELECCIÓN DE TEXTO --- */
-::selection {
-  background-color: var(--primary);
-  color: white;
+.dark {
+  /* Modo oscuro inspirado en tiendas premium de noche / empaques de lujo negros y dorados */
+  --background: oklch(0.14 0.01 20);
+  --foreground: oklch(0.95 0.01 45);
+  
+  --card: oklch(0.18 0.015 20);
+  --card-foreground: oklch(0.95 0.01 45);
+  --popover: oklch(0.18 0.015 20);
+  --popover-foreground: oklch(0.95 0.01 45);
+  
+  /* El rosa se ajusta ligeramente para una legibilidad óptima en fondo oscuro */
+  --primary: oklch(0.62 0.17 350);
+  --primary-foreground: oklch(0.12 0.01 20);
+  
+  --secondary: oklch(0.24 0.02 30);
+  --secondary-foreground: oklch(0.92 0.02 50);
+  
+  --muted: oklch(0.22 0.01 20);
+  --muted-foreground: oklch(0.68 0.01 30);
+  
+  --accent: oklch(0.25 0.03 350);
+  --accent-foreground: oklch(0.95 0.02 45);
+  
+  --destructive: oklch(0.55 0.19 15);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.62 0.17 350 / 50%);
+  
+  --sidebar: oklch(0.16 0.01 20);
+  --sidebar-foreground: oklch(0.95 0.01 45);
+  --sidebar-primary: oklch(0.62 0.17 350);
+  --sidebar-primary-foreground: oklch(0.12 0.01 20);
+  --sidebar-accent: oklch(0.24 0.02 30);
+  --sidebar-accent-foreground: oklch(0.92 0.02 50);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.62 0.17 350 / 50%);
+  
+  --brand: oklch(0.62 0.17 350);
+  --brand-foreground: oklch(0.12 0.01 20);
+  --brand-muted: oklch(0.62 0.17 350 / 20%);
+  --brand-subtle: oklch(0.62 0.17 350 / 10%);
+  
+  --public-glass-bg: oklch(0.14 0.01 20 / 70%);
+  --public-glass-border: oklch(1 0 0 / 10%);
+  --public-hero-glow: oklch(0.32 0.08 350 / 30%);
+  --public-hero-glow-soft: oklch(0.22 0.05 30 / 20%);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background font-sans text-foreground antialiased selection:bg-primary/20;
+  }
+  h1 {
+    @apply font-display tracking-wide;
+  }
+  h2, h3, h4 {
+    @apply font-heading tracking-normal;
+  }
+  html {
+    @apply font-sans;
+    scroll-padding-top: 76px;
+  }
 }
