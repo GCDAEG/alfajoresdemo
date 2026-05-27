@@ -55,16 +55,23 @@ export const CartDrawer = () => {
   }, [isOpen]);
 
   useEffect(() => {
-    if (cart.length === 0 && isOpen) {
+    const isOpenState = () => {
+if (cart.length === 0 && isOpen) {
       setIsOpen(false);
     }
+    };
+    isOpenState()
   }, [cart.length, isOpen]);
 
   useEffect(() => {
-    if (!isOpen) {
-      setStep(1);
+    const step = (e:1|2) => {
+      setStep(e);
       setAddress("");
       setNotes("");
+    };
+       if (!isOpen) {
+      step(1)
+      
     }
   }, [isOpen]);
 
@@ -101,11 +108,7 @@ export const CartDrawer = () => {
       {/* BARRA FLOTANTE INFERIOR (Estilo Notificación Satinada de App de Lujo) */}
       <AnimatePresence>
         {totalItems > 0 && !isOpen && (
-          <motion.div
-            initial={{ y: 80, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 80, opacity: 0 }}
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-sm z-[110]"
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-sm z-[110]"
           >
             <button
               onClick={() => setIsOpen(true)}
@@ -129,7 +132,7 @@ export const CartDrawer = () => {
                 ${finalTotal.toLocaleString("es-AR")}
               </span>
             </button>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
 

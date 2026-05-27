@@ -116,10 +116,6 @@ const DesktopMenu = ({
 
         <div className="h-6 w-px bg-(--border)" />
 
-        {/* Bolsa de Compras con Drawer */}
-        <div className="relative hover:scale-105 transition-transform duration-300">
-          <CartDrawer />
-        </div>
       </div>
 
     </div>

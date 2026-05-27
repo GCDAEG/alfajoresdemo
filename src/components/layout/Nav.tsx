@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import DesktopMenu from "./Nav/DesktopMenu";
 import MobileMenu from "./Nav/MobileMenu";
@@ -12,9 +12,21 @@ import { sections } from "@/lib/sections";
 export function Navbar() {
   const ref = useRef<HTMLElement>(null);
   const { y } = useWindowScroll();
+  
+  // 1. Estado para saber si ya estamos en el cliente de forma segura
+  const [mounted, setMounted] = useState(false);
 
-  // Detectamos si el usuario bajó más de 20px para activar el modo flotante/satinado
-  const isScrolled = y > 20;
+  // 2. Se ejecuta inmediatamente después del primer renderizado en el navegador
+  useEffect(() => {
+    const handle = window.requestAnimationFrame(() => {
+      setMounted(true);
+    });
+
+    return () => window.cancelAnimationFrame(handle);
+  }, []);
+
+  // 3. Solo evaluamos el scroll si ya montó en el cliente. En SSR siempre será false.
+  const isScrolled = mounted && y > 20;
 
   /* ---------------------------------------------
       Sección activa (limpio)
@@ -32,8 +44,7 @@ export function Navbar() {
           : "bg-transparent border-b border-transparent"
       )}
     >
-      {/* 
-        Contenedor interno para centrar los menús y asegurar 
+      {/* Contenedor interno para centrar los menús y asegurar 
         que hereden la misma altura de la barra 
       */}
       <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
